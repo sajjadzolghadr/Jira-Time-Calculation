@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Jira CSV</title>
+</head>
+<body>
+    <h1>Upload Jira CSV File</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if result %}
+        <h2>Results:</h2>
+        <ul>
+            {% for name, hours in result.items %}
+                <li>{{ name }}: {{ hours }} hours</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

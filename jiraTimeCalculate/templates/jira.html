@@ -3,23 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload Jira CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .custom-file-upload:hover {
+            background-color: #218838;
+        }
+        input[type="file"] {
+            display: none; /* مخفی کردن input اصلی */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            margin: 30px auto;
+            width: 60%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
+
     <h1>Upload Jira CSV File</h1>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <label for="file-upload" class="custom-file-upload">
+            Select File
+        </label>
+        {{ form.file }}
+        
+        <br><br>
+
         <button type="submit">Upload</button>
     </form>
 
     {% if result %}
         <h2>Results:</h2>
-        <ul>
-            {% for name, hours in result.items %}
-                <li>{{ name }}: {{ hours }} hours</li>
-            {% endfor %}
-        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, hours in result %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ hours }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
+
+    <script>
+        // وقتی روی label کلیک میشه، input باز بشه
+        document.querySelector('.custom-file-upload').addEventListener('click', function() {
+            document.querySelector('input[type="file"]').click();
+        });
+    </script>
+
 </body>
 </html>

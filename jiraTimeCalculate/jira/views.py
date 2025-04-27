@@ -31,7 +31,7 @@ def jira_page(request):
             for name in sums:
                 sums[name] //= 3600
 
-            result = dict(sums)
+            result = sorted(sums.items(), key=lambda x: x[1], reverse=True)
 
     else:
         form = UploadCSVForm()
